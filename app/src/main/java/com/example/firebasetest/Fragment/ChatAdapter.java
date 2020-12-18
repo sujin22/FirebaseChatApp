@@ -36,7 +36,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         ChatMsgVO vo = mValues.get(position);
 
-        //참고 예제에서는 다른 기능으로 userid가 존재해서 그걸 받아옴(my_user_id라고 하겠음)
         if(mValues.get(position).getUserid().equals(my_user_id)){
             //my_user_id와 해당 메시지의 user_id가 같을 경우
             holder.other_cl.setVisibility(View.GONE);

@@ -146,6 +146,7 @@ public class ChatMsgFragment extends Fragment {
 
         //ChatRoomFragment에서 받는 채팅방 이름
         chatroom = getArguments().getString("chatroom");
+
         mAdapter = new ChatAdapter(msgList,my_user_id);
 
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));

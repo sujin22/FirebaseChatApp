@@ -59,6 +59,7 @@ public class ChatRoomFragment extends Fragment{
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_chat_room, container, false);
 
+        //user_id 입력창 실행 버튼
         profile_img = rootView.findViewById(R.id.profile_img);
         profile_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,13 +67,19 @@ public class ChatRoomFragment extends Fragment{
                 showProfileAlert();
             }
         });
+
+        //chatroom 이름 입력 editText
         chatroom_et = rootView.findViewById(R.id.chatroom_et);
+
+        //chatroom 입장 버튼
         enter_btn = rootView.findViewById(R.id.enter_btn);
         enter_btn.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
                 if(chatroom_et.getText().toString().trim().length()>=1 &&
                         PreferenceManager.getString(getActivity(),"my_user_id").length()>=1){
+                    //chatroom, user_id 둘 다 입력되었으면
+
                     Log.d(TAG, "입장처리");
 
                     //원하는 데이터를 담을 객체
@@ -84,6 +91,8 @@ public class ChatRoomFragment extends Fragment{
 
                     //이동할 Fragment에 데이터 객체 담기
                     chatMsgFragment.setArguments(argu);
+
+                    //chatMsgFragment로 이동
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.mainFragment,chatMsgFragment, "CHATMSG")
                             .addToBackStack(null)
@@ -121,8 +130,11 @@ public class ChatRoomFragment extends Fragment{
                 });
 
         final AlertDialog dialog = builder.show();
+
         final EditText editText = dialog.findViewById(R.id.my_user_id_et);
+        //기존 등록된 user_id editText에 입력되어있도록
         editText.setText(PreferenceManager.getString(getActivity(),"my_user_id"));
+
         dialog.show();
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
