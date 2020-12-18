@@ -44,6 +44,7 @@ public class ChatMsgFragment extends Fragment {
 
     //전체 constraintLayout(화면크기계산용)
     ConstraintLayout constraintLayout;
+    boolean isKeyboardUp = false;
 
     //채팅을 입력할 입력창과 전송 버튼
     EditText content_et;
@@ -108,8 +109,14 @@ public class ChatMsgFragment extends Fragment {
                         Log.d("키보드","diff: "+diff +" / rootViewHeight: "+ rootViewHeight + "/ constHeight: " +constraintLayoutHeight);
 
                         if(diff > 500){
-                            rv.scrollToPosition(msgList.size() -1);
-                            Toast.makeText(getActivity(), "키보드가 위로 올라왔습니다.", Toast.LENGTH_SHORT).show();
+                            if(!isKeyboardUp){
+                                rv.scrollToPosition(msgList.size() -1);
+                                isKeyboardUp = true;
+                                Toast.makeText(getActivity(), "키보드가 위로 올라왔습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            isKeyboardUp = false;
+                            Toast.makeText(getActivity(), "키보드가 내려갔습니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -138,14 +145,6 @@ public class ChatMsgFragment extends Fragment {
                 }
             }
         });
-
-        //editText 클릭 리스너 설정
-//        content_et.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                rv.scrollToPosition(msgList.size() -1);
-//            }
-//        });
 
         //ChatRoomFragment에서 받는 채팅방 이름
         chatroom = getArguments().getString("chatroom");
@@ -202,11 +201,5 @@ public class ChatMsgFragment extends Fragment {
         Log.d(TAG, "chatroom = "+chatroom);
 
         return view;
-    }
-
-    //dp를 px단위로 변환하는 함수(화면 크기 계산 시 필요)
-    public float dpToPx(float valueInDp){
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }
 }
