@@ -77,7 +77,7 @@ public class ChatRoomFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 if(chatroom_et.getText().toString().trim().length()>=1 &&
-                        PreferenceManager.getString(getActivity(),"my_user_id").length()>=1){
+                        PreferenceManager.getString(getActivity(),"my_user_id").length() > 0){
                     //chatroom, user_id 둘 다 입력되었으면
 
                     Log.d(TAG, "입장처리");

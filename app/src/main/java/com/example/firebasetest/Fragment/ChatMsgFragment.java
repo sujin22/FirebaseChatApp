@@ -43,7 +43,7 @@ public class ChatMsgFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
 
     //전체 constraintLayout(화면크기계산용)
-//    ConstraintLayout constraintLayout;
+    ConstraintLayout constraintLayout;
 
     //채팅을 입력할 입력창과 전송 버튼
     EditText content_et;
@@ -97,19 +97,22 @@ public class ChatMsgFragment extends Fragment {
 
         my_user_id = PreferenceManager.getString(getActivity(),"my_user_id");
 
-//        constraintLayout = (ConstraintLayout)view.findViewById(R.id.constraintLayout);
-//        constraintLayout.getViewTreeObserver()
-//                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
-//                    @Override
-//                    public void onGlobalLayout() {
-//                        int rootViewHeight = constraintLayout.getRootView().getHeight();
-//                        int constraintLayoutHeight = constraintLayout.getHeight();
-//                        int diff = constraintLayoutHeight - rootViewHeight;
-//                        if(diff > dpToPx(10)){
-//                            Toast.makeText(getActivity(), "키보드가 위로 올라왔습니다.", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
+        constraintLayout = (ConstraintLayout)view.findViewById(R.id.constraintLayout);
+        constraintLayout.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
+                    @Override
+                    public void onGlobalLayout() {
+                        int rootViewHeight = constraintLayout.getRootView().getHeight();
+                        int constraintLayoutHeight = constraintLayout.getHeight();
+                        int diff = rootViewHeight - constraintLayoutHeight ;
+                        Log.d("키보드","diff: "+diff +" / rootViewHeight: "+ rootViewHeight + "/ constHeight: " +constraintLayoutHeight);
+
+                        if(diff > 500){
+                            rv.scrollToPosition(msgList.size() -1);
+                            Toast.makeText(getActivity(), "키보드가 위로 올라왔습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
 
 
@@ -170,6 +173,7 @@ public class ChatMsgFragment extends Fragment {
                 //채팅 메시지 배열에 담고 RecyclerView 다시 그리기
                 mAdapter = new ChatAdapter(msgList, my_user_id);
                 rv.setAdapter(mAdapter);
+
                 rv.scrollToPosition(msgList.size() -1);
                 Log.d(TAG, msgList.size()+"");
             }
@@ -200,9 +204,9 @@ public class ChatMsgFragment extends Fragment {
         return view;
     }
 
-//    //dp를 px단위로 변환하는 함수(화면 크기 계산 시 필요)
-//    public float dpToPx(float valueInDp){
-//        DisplayMetrics metrics = getResources().getDisplayMetrics();
-//        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
-//    }
+    //dp를 px단위로 변환하는 함수(화면 크기 계산 시 필요)
+    public float dpToPx(float valueInDp){
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
+    }
 }
